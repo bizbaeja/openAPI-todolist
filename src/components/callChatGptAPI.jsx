@@ -11,7 +11,7 @@ async function callChatGptAPI(question) {
     }, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': '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' // ChatGPT API 키를 입력하세요.
+        'Authorization': process.env.API_KEY// ChatGPT API 키를 입력하세요.
       }
     });
 

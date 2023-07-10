@@ -1,14 +1,11 @@
 import React from 'react';
 import './App.css';
-import TodoInput from './components/TodoInput';
-
-
+import Kakao from './Kakao'
 function App() {
   return (
     <div className="App">
         <div>
-      <h1>Todo List</h1>
-      <TodoInput />
+        <kakao />
     </div>
     </div>
   );

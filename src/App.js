@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import Kakao from './Kakao'
+import KakaoLocation from './KakaoLocation'
 function App() {
   return (
     <div className="App">
         <div>
-        <kakao />
+   <KakaoLocation />
     </div>
     </div>
   );

@@ -1,26 +1,25 @@
 import React, { useEffect } from 'react';
-import KakaoMap from './KakaoLocation';
-const API_KEY = 'W1furKe1dYSm73R6JQMWXOoeY0Kue8NYtY6SEWEXtsV6qOhN8K8jIuRLbbnMr8iQ'
-const WeatherApp = () => {
+import KakaoMap from '카카오맵_라이브러리_임포트_경로';
+import { getAccidentZones } from 'API_요청_함수_경로';
+
+const AccidentZonesMap = () => {
   useEffect(() => {
-    const fetchAccidentZones = async () => {
+    const loadAccidentZones = async () => {
       try {
-        const response = await fetch(`https://taas.koroad.or.kr/api/selectChildDataSet.do?ServiceKey=${API_KEY}`);
-        const data = await response.json();
+        const accidentZones = await getAccidentZones();
         
         // 받아온 데이터를 가공하고 마커를 추가하는 로직 구현
-        const accidentZones = data.result.data;
         for (const zone of accidentZones) {
           const latLng = new KakaoMap.LatLng(zone.latitude, zone.longitude);
           const marker = new KakaoMap.Marker({ position: latLng });
           marker.setMap(KakaoMap.getMap()); // 카카오 맵에 마커 추가
         }
       } catch (error) {
-        console.error('Error fetching accident zone data:', error);
+        console.error('Error loading accident zones:', error);
       }
     };
 
-    fetchAccidentZones();
+    loadAccidentZones();
   }, []);
 
   return (
@@ -28,4 +27,4 @@ const WeatherApp = () => {
   );
 };
 
-export default WeatherApp;
+export default AccidentZonesMap;

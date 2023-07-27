@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import KakaoLocation from './KakaoLocation'
+import KaKao from './components/KakaoMap'
 import EditorBox from './components/EditorBox'
 function App() {
   return (
     <div className="App">
         <div>
-   <KakaoLocation />
+   {/* <KaKao /> */}
    <EditorBox />
     </div>
     </div>

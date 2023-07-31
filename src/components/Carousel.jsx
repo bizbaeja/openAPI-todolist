@@ -1,6 +1,6 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import imageData from "../../data";
+import { images } from "./data";
 import { useState } from "react";
 
 function CarouselBox() {
@@ -10,8 +10,8 @@ function CarouselBox() {
     setCurrentIndex(index);
   };
 
-  const renderSlides = imageData.map((image, index) => (
-    <div key={index}>
+  const renderSlides = images.map((image, index) => (
+    <div key={index.id}>
       <img src={image.url} alt={image.alt} />
     </div>
   ));
@@ -25,6 +25,8 @@ function CarouselBox() {
         showThumbs={false}
         selectedItem={currentIndex}
         onChange={handleChange}
+        width="300px"
+        
       >
         {renderSlides}
       </Carousel>

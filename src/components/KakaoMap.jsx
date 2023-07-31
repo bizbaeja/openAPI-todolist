@@ -1,32 +1,79 @@
-/*global kakao*/
-import React, { useEffect, useState } from 'react';
-const { kakao } = window;
+/* global kakao */
 
-const Kakao = () => {
-    
-    const [map,setMap] = useState(null);
+import React, { useEffect, useState, useRef } from "react";
 
-    
-    //처음 지도 그리기
-    useEffect(()=>{
-        const container = document.getElementById('map');
-        const options = { center: new kakao.maps.LatLng(33.450701, 126.570667) };
-        const kakaoMap = new kakao.maps.Map(container, options);
-        setMap(kakaoMap);
-    },[])
+export default function KakaoMap(props) {
+  const { markerPositions, size } = props;
+  const [kakaoMap, setKakaoMap] = useState(null);
+  const [, setMarkers] = useState([]);
 
-    return (
-        <div
-            style={{
-                width: '100%',
-                display: 'inline-block',
-                marginLeft: '5px',
-                marginRight: '5px',
-            }}
-        >
-            <div id="map" style={{ width: '99%', height: '500px' }}></div>
-        </div>
-    );
-};
+  const container = useRef();
 
-export default Kakao;
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src =
+      "https://dapi.kakao.com/v2/maps/sdk.js?appkey=9b02b0e0dd19a4bba600dbb56d2bce11&autoload=false";
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      kakao.maps.load(() => {
+        const center = new kakao.maps.LatLng(37.50802, 127.062835);
+        const options = {
+          center,
+          level: 3
+        };
+        const map = new kakao.maps.Map(container.current, options);
+        //setMapCenter(center);
+        setKakaoMap(map);
+      });
+    };
+  }, [container]);
+
+  useEffect(() => {
+    if (kakaoMap === null) {
+      return;
+    }
+
+    // save center position
+    const center = kakaoMap.getCenter();
+
+    // change viewport size
+    const [width, height] = size;
+    container.current.style.width = `${width}px`;
+    container.current.style.height = `${height}px`;
+
+    // relayout and...
+    kakaoMap.relayout();
+    // restore
+    kakaoMap.setCenter(center);
+  }, [kakaoMap, size]);
+
+  useEffect(() => {
+    if (kakaoMap === null) {
+      return;
+    }
+
+    const positions = markerPositions.map(pos => new kakao.maps.LatLng(...pos));
+
+    setMarkers(markers => {
+      // clear prev markers
+      markers.forEach(marker => marker.setMap(null));
+
+      // assign new markers
+      return positions.map(
+        position => new kakao.maps.Marker({ map: kakaoMap, position })
+      );
+    });
+
+    if (positions.length > 0) {
+      const bounds = positions.reduce(
+        (bounds, latlng) => bounds.extend(latlng),
+        new kakao.maps.LatLngBounds()
+      );
+
+      kakaoMap.setBounds(bounds);
+    }
+  }, [kakaoMap, markerPositions]);
+
+  return <div id="container" ref={container} />;
+}

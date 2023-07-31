@@ -8,7 +8,7 @@ import { Outlet } from 'react-router-dom';
 function App() {
   return (
   <>
-  <Top />
+    <Top />
     <NavBar />
     <RollingBanner />
     <Outlet />

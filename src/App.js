@@ -1,17 +1,18 @@
 import React from 'react';
 import './App.css';
-// import KaKao from '../src/components/KakaoMap'
-// import EditorBox from './components/EditorBox'
-import Carousel from './components/Carousel'
+import Top from "components/Top";
+import NavBar from 'components/NavBar';
+import RollingBanner from 'components/RollingBanner';
+import { Outlet } from 'react-router-dom';
+
 function App() {
   return (
-    <div className="App">
-        <div>
-   {/* <KaKao />
-   <EditorBox /> */}
-    <Carousel />
-    </div>
-    </div>
+  <>
+  <Top />
+    <NavBar />
+    <RollingBanner />
+    <Outlet />
+  </>
   );
 }
 

@@ -5,10 +5,11 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
+import adminSlice from "./admin";
 
 
 const rootReducer = combineReducers({
-
+    admin: adminSlice,
     auth: authSlice,
 })
 

@@ -12,6 +12,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store/index';
+import PostPage from 'page/PostPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -25,7 +26,8 @@ root.render(
         <Route path="/search" element={<Search />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/about" element={<About />} /> 
-        <Route path="/contents" element={<Contents />} >
+        <Route path="/contents" element={<Contents />} />
+        <Route path="/admin-post" element={<PostPage />} >
           <Route path=":id" element={<Contents />} />
         </Route>
         <Route path="*" element={<Error />} />

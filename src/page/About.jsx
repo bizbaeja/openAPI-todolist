@@ -1,7 +1,13 @@
 import React from "react";
-
+import Carousel from "components/Carousel";
+import Map from "components/Map";
 function About() {
-  return <h1>About page</h1>;
+  return (
+    <div>
+      <Carousel />
+      <Map />
+    </div>
+  )
 }
 
 export default About;

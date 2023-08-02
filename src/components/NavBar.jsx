@@ -5,7 +5,7 @@ import { adminActions } from "store/admin";
 import { Link } from "react-router-dom";
 import { BsSearchHeart} from "react-icons/bs";
 import { IoMdLogIn } from "react-icons/io";
-import {IoMdLogOut} from "react-icons/io";
+import { IoMdLogOut } from "react-icons/io";
 import { BsInstagram } from "react-icons/bs";
 import { logout , onUserStateChange } from "api/firebase";
 

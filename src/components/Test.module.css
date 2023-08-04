@@ -20,3 +20,8 @@
 .pagination {margin:10px auto;text-align: center;}
 .pagination a {display:inline-block;margin-right:10px;}
 .pagination .on {font-weight: bold; cursor: default;color:#777;}
+.menu_scroll_wrap {
+    /* 스크롤이 적용될 영역에만 원하는 스타일을 지정합니다. */
+    height: calc(100% - 50px) !important; /* 지도 크기에 맞게 스크롤 적용 */
+    /* 원하는 추가 스타일 지정 */
+  }

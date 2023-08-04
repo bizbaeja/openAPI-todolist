@@ -8,6 +8,10 @@ const KakaoMap = ({ latitude, longitude }) => {
   const [places, setPlaces] = useState([]);
   const [pagination, setPagination] = useState(null);
 
+
+  
+
+
   useEffect(() => {
     kakao.maps.load(() => {
       const center = new kakao.maps.LatLng(latitude, longitude);
@@ -18,6 +22,15 @@ const KakaoMap = ({ latitude, longitude }) => {
       const map = new kakao.maps.Map(container.current, options);
 
       const markerPosition = new kakao.maps.LatLng(latitude, longitude);
+
+
+
+      const handleMouseLeave = () => {
+        const placesList = document.getElementById("placesList");
+        if (placesList) {
+          placesList.style.display = "none";
+        }
+      };
 
       const marker = new kakao.maps.Marker({
         position: markerPosition,
@@ -102,6 +115,7 @@ const KakaoMap = ({ latitude, longitude }) => {
       const getListItem = (index, place) => {
         const el = document.createElement("li");
         const itemStr =
+        '<div>'+
           '<span class="markerbg marker_' +
           (index + 1) +
           '"></span>' +
@@ -109,10 +123,19 @@ const KakaoMap = ({ latitude, longitude }) => {
           '   <h5>' +
           place.place_name +
           '</h5>' +
-          '   <span>' +
+          '   <div>' +
           place.address_name +
-          '</span>' +
-          '</div>';
+          '</div>' +
+          '   <div>' +
+          place.road_address_name +
+          '</div>' +
+          '   <div>' +
+          place.phone +
+          '</div>' +
+       
+          '</div>'
+          +'<hr/>'
+          +'</div>'
         el.innerHTML = itemStr;
         el.className = "item";
         return el;
@@ -139,9 +162,18 @@ const KakaoMap = ({ latitude, longitude }) => {
         }
       };
 
+
       // 초기 검색 키워드 설정
       searchPlaces("팝업 스토어");
+
+      map.relayout();
+      kakao.maps.event.addListener(map, "mouseleave", handleMouseLeave);
+      return () => {
+        kakao.maps.event.removeListener(map, "mouseleave", handleMouseLeave);
+      };
+
     });
+    
   }, [latitude, longitude]);
 
   return { container, places, pagination };
@@ -162,10 +194,11 @@ const Test = () => {
     KakaoMap({ latitude: lat, longitude: lon }).searchPlaces(keyword);
   };
 
+// 지도위에 마우스가 올라갔을 때 
   return (
     <div>
       <div className={classes.map_wrap} ref={container} style={{ width: "100%", height: "500px" }} />
-
+<div id="map" className={classes.bg_white}>
       <div className={classes.menu_wrap} >
         <div className={classes.option}>
           <div>
@@ -177,20 +210,29 @@ const Test = () => {
                 onChange={(e) => setSearchKeyword(e.target.value)}
                 size={15}
               />
+       
               <button type="submit">검색하기</button>
             </form>
           </div>
         </div>
         <hr />
+        <div className={classes.menu_scroll_wrap} >
         <ul id="placesList">
           {places.map((place, index) => (
-            <li key={index} className="item">
+            <div>
+                   <li key={index} className="item">
               <span className={`markerbg marker_${index + 1}`} />
               <div className={classes.info}>
                 <h5>{place.place_name}</h5>
-                <span>{place.address_name}</span>
+                <div>{place.address_name}</div>
+                <div>{place.road_address_name}</div>
+                <div>{place.phone}</div>
               </div>
+              <hr/>
             </li>
+          
+            </div>
+       
           ))}
         </ul>
         <div id="pagination">
@@ -202,10 +244,14 @@ const Test = () => {
                 className={pageNum === pagination.current ? "on" : ""}
                 onClick={() => pagination.gotoPage(pageNum + 1)}
               >
+                      
                 {pageNum + 1}
               </a>
             ))}
         </div>
+        </div>
+ 
+      </div>
       </div>
     </div>
   );
